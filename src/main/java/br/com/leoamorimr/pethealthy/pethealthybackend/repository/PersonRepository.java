@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 
 @Repository
-public interface PetRepository extends MongoRepository<Pet, String> {
+public interface PersonRepository extends MongoRepository<Person, String> {
 
-    List<Pet> findByOwner(Person owner);
+   List<Person> findByName(String name);
+
 }

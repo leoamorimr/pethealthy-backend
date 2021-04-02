@@ -1,9 +1,8 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.service;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
-
 import java.util.List;
-import java.util.Optional;
+
+import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 
 public interface PetService {
 
@@ -12,4 +11,6 @@ public interface PetService {
     public Pet obterPorCodigo(String codigo);
 
     public Pet criar(Pet pet);
+
+    public List<Pet> obterPorNomeDono(String nome);
 }
