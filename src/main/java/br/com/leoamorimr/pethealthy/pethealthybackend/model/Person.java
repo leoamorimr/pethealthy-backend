@@ -1,24 +1,26 @@
 
 package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 
-import java.time.LocalDate;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import lombok.Data;
 
-@Document
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDate;
+
 @Data
+@Entity
 public class Person {
 
     @Id
-    private String codigo;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private String name;
+    private String first_name;
+
+    private String last_name;
 
     private LocalDate birthDate;
-
-//    private List<Pet> pets;
 
 }

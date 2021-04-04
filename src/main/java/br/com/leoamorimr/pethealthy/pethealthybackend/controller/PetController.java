@@ -1,12 +1,20 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.controller;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
-import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
+import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
 
 @RestController
 @RequestMapping("/pet")
@@ -17,17 +25,16 @@ public class PetController {
 
     @GetMapping
     public List<Pet> obterTodos() {
-        List<Pet> pets = petService.obterTodos();
-        return pets;
+        return petService.obterTodos();
     }
 
-    @GetMapping("/{codigo}")
-    public Pet obterPorCodigo(@PathVariable String codigo) {
-        return this.petService.obterPorCodigo(codigo);
+    @GetMapping("/find/{id}")
+    public Pet obterPorId(@PathVariable Long id) {
+        return this.petService.obterPorId(id);
     }
 
     @GetMapping("/dono/{nome}")
-    public List<Pet> obterPorNomeDono(@PathVariable(required = true)  String nome) {
+    public List<Pet> obterPorNomeDono(@PathVariable String nome) {
         return this.petService.obterPorNomeDono(nome);
     }
 
@@ -35,5 +42,11 @@ public class PetController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public void criar(@RequestBody Pet pet) {
         this.petService.criar(pet);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletar(@PathVariable Long id) {
+        petService.delete(id);
     }
 }

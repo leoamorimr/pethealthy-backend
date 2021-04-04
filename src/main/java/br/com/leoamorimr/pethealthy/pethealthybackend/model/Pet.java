@@ -1,19 +1,17 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 
-import java.time.LocalDate;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import lombok.Data;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+
 @Data
-@Document
+@Entity
 public class Pet {
 
     @Id
-    private String codigo;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String name;
 
@@ -21,7 +19,7 @@ public class Pet {
 
     private LocalDate birthDate;
 
-    @DBRef
-    private Person owner;
+    @ManyToOne
+    private Person person;
 
 }

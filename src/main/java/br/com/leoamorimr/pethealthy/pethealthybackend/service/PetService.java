@@ -8,9 +8,12 @@ public interface PetService {
 
     public List<Pet> obterTodos();
 
-    public Pet obterPorCodigo(String codigo);
+    public Pet obterPorId(Long id);
 
     public Pet criar(Pet pet);
 
     public List<Pet> obterPorNomeDono(String nome);
+
+    public void delete(Long id);
+
 }

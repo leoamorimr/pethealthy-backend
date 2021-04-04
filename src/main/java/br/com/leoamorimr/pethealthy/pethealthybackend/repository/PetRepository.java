@@ -1,15 +1,15 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.repository;
 
-import java.util.List;
-
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
-
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
-public interface PetRepository extends MongoRepository<Pet, String> {
+public interface PetRepository extends JpaRepository<Pet, Long> {
 
-    List<Pet> findByOwner(Person owner);
+    List<Pet> findByPerson(Person person);
+
 }
