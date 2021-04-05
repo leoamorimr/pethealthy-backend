@@ -4,7 +4,7 @@ import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.PersonService;
-import br.com.leoamorimr.pethealthy.pethealthybackend.exception.PersonNotFoundException;
+import br.com.leoamorimr.pethealthy.pethealthybackend.exception.PetNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void deletarPorId(Long id) {
         if (!personRepository.existsById(id))
-            throw new PersonNotFoundException("Pessoa com o id: " + id + " não existe!");
+            throw new PetNotFoundException("Pessoa com o id: " + id + " não existe!");
         this.personRepository.deleteById(id);
     }
 

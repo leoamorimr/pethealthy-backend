@@ -28,12 +28,12 @@ public class PetController {
         return petService.obterTodos();
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public Pet obterPorId(@PathVariable Long id) {
         return this.petService.obterPorId(id);
     }
 
-    @GetMapping("/dono/{nome}")
+    @GetMapping("/person/{nome}")
     public List<Pet> obterPorNomeDono(@PathVariable String nome) {
         return this.petService.obterPorNomeDono(nome);
     }
@@ -44,9 +44,9 @@ public class PetController {
         this.petService.criar(pet);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletar(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         petService.delete(id);
     }
 }

@@ -1,57 +1,54 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.service.impl;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
-import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
-import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
-import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.leoamorimr.pethealthy.pethealthybackend.exception.PetNotFoundException;
+import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
+import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
+import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
 
 @Service
 public class PetServiceImpl implements PetService {
 
-    @Autowired
-    private PetRepository petRepository;
+	@Autowired
+	private PetRepository petRepository;
 
-    @Autowired
-    private PersonRepository personRepository;
+	@Override
+	public List<Pet> obterTodos() {
+		return this.petRepository.findAll();
+	}
 
-    @Override
-    public List<Pet> obterTodos() {
-        return this.petRepository.findAll();
-    }
+	@Override
+	public Pet obterPorId(Long codigo) {
+		return this.petRepository.findById(codigo).orElseThrow(() -> new PetNotFoundException("Pet não encontrado!"));
+	}
 
-    @Override
-    public Pet obterPorId(Long codigo) {
-        return this.petRepository.findById(codigo)
-                .orElseThrow(() -> new IllegalArgumentException("Pet não encontrado!"));
-    }
+	@Override
+	public List<Pet> obterPorNomeDono(String nome) {
+		List<Pet> pets = petRepository.findByOwnerFirstName(nome);
 
-    @Override
-    public List<Pet> obterPorNomeDono(String nome) {
-////        List<Person> persons = personRepository.findByName(nome);
-//
-//        if (persons.isEmpty())
-//            throw new IllegalStateException("Dono não Encontrado!");
-//
-//        List<Pet> pets = petRepository.findByPerson(persons.get(0));
-//
-//        if (pets.isEmpty())
-//            throw new IllegalStateException("Nenhum Pet encontrado!");
+		if (pets.isEmpty())
+			throw new PetNotFoundException("Nenhum Pet encontrado!");
 
-        return null;
-    }
+		return pets;
+	}
 
-    @Override
-    public Pet criar(Pet pet) {
-        return this.petRepository.save(pet);
-    }
+	@Override
+	public Pet criar(Pet pet) {
+		return this.petRepository.save(pet);
+	}
 
-    @Override
-    public void delete(Long id) {
-        petRepository.deleteById(id);
-    }
+	@Override
+	public void delete(Long id) {
+		Optional<Pet> pet = petRepository.findById(id);
+
+		if (!pet.isPresent())
+			throw new PetNotFoundException("Nenhum Pet encontrado!");
+
+		petRepository.deleteById(id);
+	}
 }
