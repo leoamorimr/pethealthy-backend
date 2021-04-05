@@ -1,13 +1,15 @@
 
 package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 
-import lombok.Data;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDate;
+
+import lombok.Data;
 
 @Data
 @Entity
@@ -21,6 +23,7 @@ public class Person {
 
     private String last_name;
 
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
 }
