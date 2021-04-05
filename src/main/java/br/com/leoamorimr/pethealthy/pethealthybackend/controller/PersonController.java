@@ -24,25 +24,24 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping
-	public List<Person> obterTodos() {
-		return personService.obterTodos();
+	public List<Person> getAll() {
+		return personService.getAll();
 	}
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void criar(@RequestBody Person person) {
-		this.personService.criar(person);
+		this.personService.create(person);
 	}
 
 	@GetMapping("/{id}")
-	public Person obterPorId(@PathVariable Long id) {
-		return this.personService.obterPorId(id)
-				.orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
+	public Person getById(@PathVariable Long id) {
+		return this.personService.getById(id).orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
 	}
 
 	@DeleteMapping("/{id}")
-	public void deletarPorId(@PathVariable Long id) {
-		this.personService.deletarPorId(id);
+	public void deleteById(@PathVariable Long id) {
+		this.personService.deleteById(id);
 	}
 
 }

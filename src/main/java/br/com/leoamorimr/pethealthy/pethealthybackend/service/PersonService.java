@@ -9,11 +9,11 @@ import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 
 public interface PersonService {
 
-    public Person criar(Person person);
+    public Person create(Person person);
 
-    public List<Person> obterTodos();
+    public List<Person> getAll();
 
-    public Optional<Person> obterPorId(Long id);
+    public Optional<Person> getById(Long id);
 
-    public void deletarPorId(Long id);
+    public void deleteById(Long id);
 }

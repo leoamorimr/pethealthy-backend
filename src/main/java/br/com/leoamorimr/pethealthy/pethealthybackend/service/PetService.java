@@ -6,13 +6,13 @@ import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 
 public interface PetService {
 
-    public List<Pet> obterTodos();
+    public List<Pet> getAll();
 
-    public Pet obterPorId(Long id);
+    public Pet getById(Long id);
 
-    public Pet criar(Pet pet);
+    public Pet create(Pet pet);
 
-    public List<Pet> obterPorNomeDono(String nome);
+    public List<Pet> getByPersonalName(String nome);
 
     public void delete(Long id);
 

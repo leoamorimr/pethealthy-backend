@@ -25,23 +25,23 @@ public class PetController {
 
     @GetMapping
     public List<Pet> obterTodos() {
-        return petService.obterTodos();
+        return petService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Pet obterPorId(@PathVariable Long id) {
-        return this.petService.obterPorId(id);
+    public Pet getById(@PathVariable Long id) {
+        return this.petService.getById(id);
     }
 
     @GetMapping("/person/{nome}")
-    public List<Pet> obterPorNomeDono(@PathVariable String nome) {
-        return this.petService.obterPorNomeDono(nome);
+    public List<Pet> getByPersonName(@PathVariable String nome) {
+        return this.petService.getByPersonalName(nome);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public void criar(@RequestBody Pet pet) {
-        this.petService.criar(pet);
+        this.petService.create(pet);
     }
 
     @DeleteMapping("/{id}")

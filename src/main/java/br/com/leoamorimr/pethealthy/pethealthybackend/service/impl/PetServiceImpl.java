@@ -18,18 +18,18 @@ public class PetServiceImpl implements PetService {
 	private PetRepository petRepository;
 
 	@Override
-	public List<Pet> obterTodos() {
+	public List<Pet> getAll() {
 		return this.petRepository.findAll();
 	}
 
 	@Override
-	public Pet obterPorId(Long codigo) {
+	public Pet getById(Long codigo) {
 		return this.petRepository.findById(codigo).orElseThrow(() -> new PetNotFoundException("Pet não encontrado!"));
 	}
 
 	@Override
-	public List<Pet> obterPorNomeDono(String nome) {
-		List<Pet> pets = petRepository.findByOwnerFirstName(nome);
+	public List<Pet> getByPersonalName(String nome) {
+		List<Pet> pets = petRepository.findByPersonFirstNameLastName(nome);
 
 		if (pets.isEmpty())
 			throw new PetNotFoundException("Nenhum Pet encontrado!");
@@ -38,7 +38,7 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
-	public Pet criar(Pet pet) {
+	public Pet create(Pet pet) {
 		return this.petRepository.save(pet);
 	}
 
