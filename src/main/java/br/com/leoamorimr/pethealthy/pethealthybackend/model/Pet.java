@@ -2,7 +2,6 @@ package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +26,7 @@ public class Pet {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Person person;
 
 }
