@@ -1,6 +1,5 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.exception;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.Data;
