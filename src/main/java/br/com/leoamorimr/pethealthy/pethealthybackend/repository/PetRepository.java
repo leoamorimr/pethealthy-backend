@@ -14,5 +14,4 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
     @Query(value = "SELECT p FROM Pet p INNER JOIN Person pe ON(p.person.id = pe.id) WHERE (pe.firstName LIKE %?1% OR pe.lastName LIKE %?1%)")
     List<Pet> findByPersonFirstNameLastName(String first_name);
 
-
 }
