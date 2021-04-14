@@ -16,14 +16,14 @@ import lombok.Data;
 public class Pet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     private String color;
 
-    @Column(name = "birth_date")
+    @Column
     private LocalDate birthDate;
 
     @ManyToOne
