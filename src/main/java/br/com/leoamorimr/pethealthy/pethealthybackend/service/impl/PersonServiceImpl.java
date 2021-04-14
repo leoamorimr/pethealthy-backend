@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.exception.PetNotFoundException;
+import br.com.leoamorimr.pethealthy.pethealthybackend.exception.ObjectNotFoundException;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
@@ -39,7 +39,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void deleteById(Long id) {
         if (!personRepository.existsById(id))
-            throw new PetNotFoundException("Pessoa com o id: " + id + " não existe!");
+            throw new ObjectNotFoundException("Pessoa com o id: " + id + " não existe!");
         this.personRepository.deleteById(id);
     }
 

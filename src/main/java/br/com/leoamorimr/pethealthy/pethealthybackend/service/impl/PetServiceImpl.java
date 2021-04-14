@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.exception.PetNotFoundException;
+import br.com.leoamorimr.pethealthy.pethealthybackend.exception.ObjectNotFoundException;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
@@ -24,7 +24,8 @@ public class PetServiceImpl implements PetService {
 
 	@Override
 	public Pet getById(Long codigo) {
-		return this.petRepository.findById(codigo).orElseThrow(() -> new PetNotFoundException("Pet não encontrado!"));
+		return this.petRepository.findById(codigo)
+				.orElseThrow(() -> new ObjectNotFoundException("Pet não encontrado!"));
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class PetServiceImpl implements PetService {
 		List<Pet> pets = petRepository.findByPersonFirstNameLastName(nome);
 
 		if (pets.isEmpty())
-			throw new PetNotFoundException("Nenhum Pet encontrado!");
+			throw new ObjectNotFoundException("Nenhum Pet encontrado!");
 
 		return pets;
 	}
@@ -47,7 +48,7 @@ public class PetServiceImpl implements PetService {
 		Optional<Pet> pet = petRepository.findById(id);
 
 		if (!pet.isPresent())
-			throw new PetNotFoundException("Nenhum Pet encontrado!");
+			throw new ObjectNotFoundException("Nenhum Pet encontrado!");
 
 		petRepository.deleteById(id);
 	}
