@@ -1,9 +1,11 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,24 +26,28 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping
-	public List<Person> getAll() {
-		return personService.getAll();
+	public ResponseEntity<List<Person>> getAll() {
+		List<Person> persons = personService.getAll();
+		return ResponseEntity.ok().body(persons);
 	}
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void criar(@RequestBody Person person) {
-		this.personService.create(person);
+	public ResponseEntity<Void> criar(@RequestBody Person person) {
+		personService.create(person);
+		return ResponseEntity.ok().build();
+
 	}
 
 	@GetMapping("/{id}")
-	public Person getById(@PathVariable Long id) {
-		return this.personService.getById(id).orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
+	public ResponseEntity<Optional<Person>> getById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(personService.getById(id));
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteById(@PathVariable Long id) {
-		this.personService.deleteById(id);
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+		personService.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }

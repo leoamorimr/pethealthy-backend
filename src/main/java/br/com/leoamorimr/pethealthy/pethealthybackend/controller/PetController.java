@@ -21,33 +21,35 @@ import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
 @RequestMapping("/pet")
 public class PetController {
 
-    @Autowired
-    private PetService petService;
+	@Autowired
+	private PetService petService;
 
-    @GetMapping
-    public List<Pet> obterTodos() {
-        return petService.getAll();
-    }
+	@GetMapping
+	public List<Pet> obterTodos() {
+		return petService.getAll();
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Pet> getById(@PathVariable Long id) {
-        return new ResponseEntity<Pet>(petService.getById(id), HttpStatus.OK);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<Pet> getById(@PathVariable Long id) {
+		return new ResponseEntity<Pet>(petService.getById(id), HttpStatus.OK);
+	}
 
-    @GetMapping("/person/{nome}")
-    public List<Pet> getByPersonName(@PathVariable String nome) {
-        return this.petService.getByPersonalName(nome);
-    }
+	@GetMapping("/person/{nome}")
+	public List<Pet> getByPersonName(@PathVariable String nome) {
+		return this.petService.getByPersonalName(nome);
+	}
 
-    @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public void criar(@RequestBody Pet pet) {
-        this.petService.create(pet);
-    }
+	@PostMapping
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public ResponseEntity<Void> criar(@RequestBody Pet pet) {
+		petService.create(pet);
+		return ResponseEntity.ok().build();
+	}
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable Long id) {
-        petService.delete(id);
-    }
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		petService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
