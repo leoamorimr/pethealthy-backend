@@ -2,6 +2,7 @@ package br.com.leoamorimr.pethealthy.pethealthybackend.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PersonDTO;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.PersonService;
 
@@ -23,9 +25,11 @@ public class PersonController {
 	private PersonService service;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Person>> findAll() {
+	public ResponseEntity<List<PersonDTO>> findAll() {
 		List<Person> persons = service.findAll();
-		return ResponseEntity.ok().body(persons);
+		List<PersonDTO> listDTO = persons.stream().map(obj -> new PersonDTO(obj)).collect(Collectors.toList());
+
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PersonDTO;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
@@ -53,5 +54,9 @@ public class PersonService {
 			throw new DataIntegrityException("Não é possível remover uma Pessoa com um Pet associado!");
 		}
 
+	}
+
+	public Person fromDTO(PersonDTO objDTO) {
+		return new Person(objDTO.getId(), objDTO.getFirstName(), objDTO.getLastName(), objDTO.getBirthDate());
 	}
 }
