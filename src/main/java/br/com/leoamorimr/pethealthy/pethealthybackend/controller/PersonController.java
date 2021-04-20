@@ -39,17 +39,20 @@ public class PersonController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Person obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@RequestBody PersonDTO objDTO) {
+		Person person = service.fromDTO(objDTO);
+		person = service.insert(person);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-	public ResponseEntity<Void> update(@RequestBody Person obj, @PathVariable Long id) {
+	public ResponseEntity<Void> update(@RequestBody PersonDTO objDTO, @PathVariable Long id) {
+		Person obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
+
 		return ResponseEntity.noContent().build();
 	}
 
