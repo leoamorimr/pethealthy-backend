@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.controller.exception.PetNotFoundException;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
+import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ObjectNotFoundException;
 
 @Service
 public class PetService {
@@ -21,14 +21,14 @@ public class PetService {
 	}
 
 	public Pet getById(Long codigo) {
-		return this.repo.findById(codigo).orElseThrow(() -> new PetNotFoundException("Pet não encontrado!"));
+		return this.repo.findById(codigo).orElseThrow(() -> new ObjectNotFoundException("Pet não encontrado!"));
 	}
 
 	public List<Pet> getByPersonalName(String nome) {
 		List<Pet> pets = repo.findByPersonFirstNameLastName(nome);
 
 		if (pets.isEmpty())
-			throw new PetNotFoundException("Nenhum Pet encontrado!");
+			throw new ObjectNotFoundException("Nenhum Pet encontrado!");
 
 		return pets;
 	}
@@ -42,7 +42,7 @@ public class PetService {
 		Optional<Pet> pet = repo.findById(id);
 
 		if (!pet.isPresent())
-			throw new PetNotFoundException("Nenhum Pet encontrado!");
+			throw new ObjectNotFoundException("Nenhum Pet encontrado!");
 
 		repo.deleteById(id);
 	}
