@@ -1,4 +1,4 @@
-package br.com.leoamorimr.pethealthy.pethealthybackend.exception;
+package br.com.leoamorimr.pethealthy.pethealthybackend.controller.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

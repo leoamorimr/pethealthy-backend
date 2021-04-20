@@ -1,4 +1,4 @@
-package br.com.leoamorimr.pethealthy.pethealthybackend.exception;
+package br.com.leoamorimr.pethealthy.pethealthybackend.controller.exception;
 
 import java.time.LocalDateTime;
 
