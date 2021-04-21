@@ -1,12 +1,14 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.enums.TipoPet;
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
+import br.com.leoamorimr.pethealthy.pethealthybackend.model.enums.TipoPet;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -25,11 +27,11 @@ public class Pet implements Serializable {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-
     private Integer tipoPet;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id")
     private Person person;
 
     public Pet() {
