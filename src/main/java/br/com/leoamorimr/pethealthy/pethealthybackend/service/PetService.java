@@ -2,7 +2,10 @@ package br.com.leoamorimr.pethealthy.pethealthybackend.service;
 
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
+import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
+import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ConstraintViolationException;
+import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.DataIntegrityException;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ public class PetService {
 
     @Autowired
     private PetRepository repo;
+    @Autowired
+    private PersonRepository personRepo;
 
     public List<Pet> findAll() {
         return repo.findAll();
@@ -27,8 +32,12 @@ public class PetService {
     }
 
     public Pet insert(Pet obj) {
+        if (!personRepo.existsById(obj.getPerson().getId()))
+            throw new ObjectNotFoundException("Dono não encontrado! ");
+
         obj.setId(null);
-        return repo.save(obj);
+        repo.save(obj);
+        return obj;
     }
 
     public Pet update(Pet obj) {

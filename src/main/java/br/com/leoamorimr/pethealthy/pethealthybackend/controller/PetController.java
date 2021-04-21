@@ -17,6 +17,14 @@ public class PetController {
     @Autowired
     private PetService service;
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody Pet obj) {
+        obj = service.insert(obj);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Pet>> findAll() {
         List<Pet> pets = service.findAll();
@@ -27,14 +35,6 @@ public class PetController {
     public ResponseEntity<Pet> find(@PathVariable Long id) {
         Pet pet = service.find(id);
         return ResponseEntity.ok().body(pet);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Pet obj) {
-        obj = service.insert(obj);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
