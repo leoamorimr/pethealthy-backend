@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.enums.TipoPet;
 
 @Entity
-public class Pet {
+public abstract class Pet {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
