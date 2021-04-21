@@ -18,8 +18,7 @@ public class Cat extends Pet {
     }
 
     public Integer getAge() {
-        return Period.between(LocalDate.now(), getBirthDate()).getDays();
+        return Period.between(getBirthDate(), LocalDate.now()).getDays();
     }
 
 }
-

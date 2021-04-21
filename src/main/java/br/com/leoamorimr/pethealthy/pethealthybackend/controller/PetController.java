@@ -1,57 +1,53 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.controller;
 
+import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
+import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
-import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
-
 @RestController
 @RequestMapping("/pet")
-public class  PetController {
+public class PetController {
 
-	@Autowired
-	private PetService service;
+    @Autowired
+    private PetService service;
 
-	@GetMapping
-	public List<Pet> obterTodos() {
-		return service.getAll();
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Pet>> findAll() {
+        List<Pet> pets = service.findAll();
+        return ResponseEntity.ok().body(pets);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Pet> getById(@PathVariable Long id) {
-		return new ResponseEntity<Pet>(service.getById(id), HttpStatus.OK);
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public ResponseEntity<Pet> find(@PathVariable Long id) {
+        Pet pet = service.find(id);
+        return ResponseEntity.ok().body(pet);
+    }
 
-	@GetMapping("/person/{nome}")
-	public List<Pet> getByPersonName(@PathVariable String nome) {
-		return this.service.getByPersonalName(nome);
-	}
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody Pet obj) {
+        obj = service.insert(obj);
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> criar(@RequestBody Pet obj) {
-		obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-	}
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody Pet obj, @PathVariable Long id) {
+        obj.setId(id);
+        obj = service.update(obj);
 
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public void delete(@PathVariable Long id) {
-		service.delete(id);
-	}
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
