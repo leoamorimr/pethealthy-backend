@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValidationError extends StandardError {
 
-    private List<FieldMessage> messageList = new ArrayList<>();
+    private List<FieldMessage> errors = new ArrayList<>();
 
     /**
      * @param status
@@ -16,11 +16,11 @@ public class ValidationError extends StandardError {
         super(status, msg, timesTamp);
     }
 
-    public List<FieldMessage> getMessageList() {
-        return messageList;
+    public List<FieldMessage> getErrors() {
+        return errors;
     }
 
     public void addError(String fieldName, String message) {
-        messageList.add(new FieldMessage(fieldName, message));
+        errors.add(new FieldMessage(fieldName, message));
     }
 }
