@@ -17,46 +17,46 @@ import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ObjectNo
 @Service
 public class PersonService {
 
-	@Autowired
-	PersonRepository personRepo;
+    @Autowired
+    PersonRepository personRepo;
 
-	@Autowired
-	PetRepository petRepo;
+    @Autowired
+    PetRepository petRepo;
 
-	public List<Person> findAll() {
-		return personRepo.findAll();
-	}
+    public List<Person> findAll() {
+        return personRepo.findAll();
+    }
 
-	public Person find(Long id) {
-		Optional<Person> person = personRepo.findById(id);
-		return person.orElseThrow(
-				() -> new ObjectNotFoundException("Pessoa não encontrada! " + id + " Tipo:" + Person.class.getName()));
-	}
+    public Person find(Long id) {
+        Optional<Person> person = personRepo.findById(id);
+        return person.orElseThrow(
+                () -> new ObjectNotFoundException("Pessoa não encontrada! " + id + " Tipo:" + Person.class.getName()));
+    }
 
-	public Person insert(Person obj) {
-		obj.setId(null);
-		return personRepo.save(obj);
-	}
+    public Person insert(Person obj) {
+        obj.setId(null);
+        return personRepo.save(obj);
+    }
 
-	public Person update(Person obj) {
-		find(obj.getId());
-		return personRepo.save(obj);
-	}
+    public Person update(Person obj) {
+        find(obj.getId());
+        return personRepo.save(obj);
+    }
 
-	public void delete(Long id) {
-		Person person = find(id);
-		if (person == null)
-			throw new ObjectNotFoundException("Pessoa com o id: " + id + " não existe! Tipo:" + Person.class.getName());
+    public void delete(Long id) {
+        Person person = find(id);
+        if (person == null)
+            throw new ObjectNotFoundException("Pessoa com o id: " + id + " não existe! Tipo:" + Person.class.getName());
 
-		try {
-			personRepo.deleteById(id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível remover uma Pessoa com um Pet associado!");
-		}
+        try {
+            personRepo.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível remover uma Pessoa com um Pet associado!");
+        }
 
-	}
+    }
 
-	public Person fromDTO(PersonDTO objDTO) {
-		return new Person(objDTO.getId(), objDTO.getFirstName(), objDTO.getLastName(), objDTO.getBirthDate());
-	}
+    public Person fromDTO(PersonDTO objDTO) {
+        return new Person(objDTO.getId(), objDTO.getFirstName(), objDTO.getLastName(), objDTO.getBirthDate());
+    }
 }

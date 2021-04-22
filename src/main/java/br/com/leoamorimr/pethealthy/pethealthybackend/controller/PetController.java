@@ -1,5 +1,7 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.controller;
 
+import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PersonDTO;
+import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PetDTO;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pet")
@@ -26,15 +29,16 @@ public class PetController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Pet>> findAll() {
+    public ResponseEntity<List<PetDTO>> findAll() {
         List<Pet> pets = service.findAll();
-        return ResponseEntity.ok().body(pets);
+        List<PetDTO> listDTO = pets.stream().map(obj -> new PetDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDTO);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public ResponseEntity<Pet> find(@PathVariable Long id) {
-        Pet pet = service.find(id);
-        return ResponseEntity.ok().body(pet);
+    public ResponseEntity<PetDTO> find(@PathVariable Long id) {
+        PetDTO petDTO = new PetDTO(service.find(id));
+        return ResponseEntity.ok().body(petDTO);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")

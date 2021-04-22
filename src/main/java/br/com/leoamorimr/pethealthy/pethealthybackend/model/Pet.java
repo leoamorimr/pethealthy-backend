@@ -1,14 +1,12 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-
-import javax.persistence.*;
-
+import br.com.leoamorimr.pethealthy.pethealthybackend.model.enums.TipoPet;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.enums.TipoPet;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
