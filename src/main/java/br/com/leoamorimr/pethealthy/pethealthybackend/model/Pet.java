@@ -3,6 +3,7 @@ package br.com.leoamorimr.pethealthy.pethealthybackend.model;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.enums.TipoPet;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,7 +28,7 @@ public class Pet implements Serializable {
 
     private Integer tipoPet;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;

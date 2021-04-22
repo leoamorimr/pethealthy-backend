@@ -32,7 +32,6 @@ public class Person {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "person")
     private List<Pet> pets = new ArrayList<>();
 

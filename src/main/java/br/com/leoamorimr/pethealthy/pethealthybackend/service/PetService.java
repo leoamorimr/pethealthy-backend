@@ -1,5 +1,6 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.service;
 
+import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PetDTO;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
@@ -10,8 +11,10 @@ import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ObjectNo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -22,13 +25,23 @@ public class PetService {
     private PersonRepository personRepo;
 
     public List<Pet> findAll() {
-        return repo.findAll();
+        List<Pet> pets = repo.findAll();
+        if (pets.size() > 0) {
+            for (Pet p : pets)
+                p.getPerson().setPets(new ArrayList<>());
+        }
+        return pets;
     }
 
     public Pet find(Long id) {
         Optional<Pet> pet = repo.findById(id);
-        return pet.orElseThrow(
-                () -> new ObjectNotFoundException("Pet não encontrado! " + id + " Tipo:" + Pet.class.getName()));
+        try {
+            if (pet != null)
+                pet.get().getPerson().getPets().clear();
+            return pet.get();
+        } catch (Exception e) {
+            throw new ObjectNotFoundException("Pet não encontrado! " + id + " Tipo:" + Pet.class.getName());
+        }
     }
 
     public Pet insert(Pet obj) {

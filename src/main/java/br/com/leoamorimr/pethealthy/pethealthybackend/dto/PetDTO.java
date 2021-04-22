@@ -11,7 +11,6 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class PetDTO implements Serializable {
 
     private Long id;
