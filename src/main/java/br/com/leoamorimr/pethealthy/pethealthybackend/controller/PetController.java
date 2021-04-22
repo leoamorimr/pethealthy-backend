@@ -1,6 +1,5 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.controller;
 
-import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PersonDTO;
 import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PetDTO;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.PetService;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +21,11 @@ public class PetController {
     private PetService service;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Pet obj) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody PetDTO objDTO) {
+        Pet obj = service.fromDTO(objDTO);
         obj = service.insert(obj);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -36,13 +37,14 @@ public class PetController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public ResponseEntity<PetDTO> find(@PathVariable Long id) {
+    public ResponseEntity<?> find(@PathVariable Long id) {
         PetDTO petDTO = new PetDTO(service.find(id));
         return ResponseEntity.ok().body(petDTO);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public ResponseEntity<Void> update(@RequestBody Pet obj, @PathVariable Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody PetDTO objDTO, @PathVariable Long id) {
+        Pet obj = service.fromDTO(objDTO);
         obj.setId(id);
         obj = service.update(obj);
 

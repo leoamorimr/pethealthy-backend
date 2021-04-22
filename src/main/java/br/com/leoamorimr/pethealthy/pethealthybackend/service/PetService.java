@@ -1,12 +1,9 @@
 package br.com.leoamorimr.pethealthy.pethealthybackend.service;
 
 import br.com.leoamorimr.pethealthy.pethealthybackend.dto.PetDTO;
-import br.com.leoamorimr.pethealthy.pethealthybackend.model.Person;
 import br.com.leoamorimr.pethealthy.pethealthybackend.model.Pet;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PersonRepository;
 import br.com.leoamorimr.pethealthy.pethealthybackend.repository.PetRepository;
-import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ConstraintViolationException;
-import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.DataIntegrityException;
 import br.com.leoamorimr.pethealthy.pethealthybackend.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -63,5 +59,9 @@ public class PetService {
         if (pet == null)
             throw new ObjectNotFoundException("Pet com o id: " + id + " não existe! Tipo:" + Pet.class.getName());
         repo.deleteById(id);
+    }
+
+    public Pet fromDTO(PetDTO objDTO) {
+        return new Pet(objDTO.getId(), objDTO.getName(), objDTO.getColor(), objDTO.getBirthDate(), objDTO.getTipoPet(), objDTO.getPerson());
     }
 }
